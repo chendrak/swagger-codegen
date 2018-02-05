@@ -18,7 +18,12 @@ import Foundation
 {{> modelEnum}}
 {{/isEnum}}
 {{^isEnum}}
-{{> modelObject}}
+    {{#useClasses}}
+        {{> modelObjectClass}}
+    {{/useClasses}}
+    {{^useClasses}}
+        {{> modelObject}}
+    {{/useClasses}}}
 {{/isEnum}}
 {{/isArrayModel}}
 {{/model}}
