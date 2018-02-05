@@ -25,6 +25,8 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
     public static final String ANDROID_SDK_VERSION = "androidSdkVersion";
     public static final String ANDROID_BUILD_TOOLS_VERSION = "androidBuildToolsVersion";
+    public static final String MOSHI = "moshi";
+
     protected String invokerPackage = "io.swagger.client";
     protected String groupId = "io.swagger";
     protected String artifactId = "swagger-android-client";
@@ -36,6 +38,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     protected String androidSdkVersion;
     protected String androidBuildToolsVersion;
     protected Boolean serializableModel = false;
+    protected Boolean useMoshi = false;
 
     // requestPackage and authPackage are used by the "volley" template/library
     protected String requestPackage = "io.swagger.client.request";
@@ -102,6 +105,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(ANDROID_GRADLE_VERSION, "gradleVersion version for use in the generated build.gradle"));
         cliOptions.add(new CliOption(ANDROID_SDK_VERSION, "compileSdkVersion version for use in the generated build.gradle"));
         cliOptions.add(new CliOption(ANDROID_BUILD_TOOLS_VERSION, "buildToolsVersion version for use in the generated build.gradle"));
+        cliOptions.add(CliOption.newBoolean(MOSHI, "Use moshi library instead of GSON"));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 
@@ -200,6 +204,15 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toVarName(String name) {
         // sanitize name
+
+        if (!StringUtils.isEmpty(name)) {
+            int dotIdx = name.lastIndexOf(".");
+
+            if (dotIdx > -1) {
+                name = name.substring(dotIdx+1);
+            }
+        }
+
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // replace - with _ e.g. created-at => created_at
@@ -416,6 +429,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
         }
 
+        if (additionalProperties.containsKey(MOSHI)) {
+            this.setUseMoshi((Boolean) additionalProperties.get(MOSHI));
+        }
+
         // need to put back serializableModel (boolean) into additionalProperties as value in additionalProperties is string
         additionalProperties.put(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
 
@@ -579,6 +596,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     public void setSerializableModel(Boolean serializableModel) {
         this.serializableModel = serializableModel;
+    }
+
+    public void setUseMoshi(Boolean useMoshi) {
+        this.useMoshi = useMoshi;
     }
 
     @Override

@@ -4,7 +4,12 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 import io.swagger.annotations.*;
+{{#moshi}}
+import com.squareup.moshi.Json;
+{{/moshi}}
+{{^moshi}}
 import com.google.gson.annotations.SerializedName;
+{{/moshi}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
@@ -22,9 +27,19 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#seriali
   public enum {{datatypeWithEnum}} {
     {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
   };
+  {{#moshi}}
+  @Json(name = "{{baseName}}")
+  {{/moshi}}
+  {{^moshi}}
   @SerializedName("{{baseName}}")
+  {{/moshi}}
   private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
+  {{#moshi}}
+  @Json(name = "{{baseName}}")
+  {{/moshi}}
+  {{^moshi}}
   @SerializedName("{{baseName}}")
+  {{/moshi}}
   private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
 
   {{#vars}}
