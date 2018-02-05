@@ -43,6 +43,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
     public static final String RESPONSE_AS = "responseAs";
     public static final String UNWRAP_REQUIRED = "unwrapRequired";
+    public static final String USE_CLASSES = "useClasses";
     public static final String OBJC_COMPATIBLE = "objcCompatible";
     public static final String POD_SOURCE = "podSource";
     public static final String POD_AUTHORS = "podAuthors";
@@ -62,6 +63,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     protected static final String[] RESPONSE_LIBRARIES = {LIBRARY_PROMISE_KIT, LIBRARY_RX_SWIFT};
     protected String projectName = "SwaggerClient";
     protected boolean unwrapRequired;
+    protected boolean useClasses = false;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
     protected boolean swiftUseApiNamespace;
@@ -225,6 +227,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(OBJC_COMPATIBLE,
                                      "Add additional properties and methods for Objective-C "
                                      + "compatibility (default: false)"));
+        cliOptions.add(new CliOption(USE_CLASSES,
+                                     "Use classes for for Objective-C "
+                                     + "compatibility (default: false)")
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(POD_SOURCE, "Source information used for Podspec"));
         cliOptions.add(new CliOption(CodegenConstants.POD_VERSION, "Version used for Podspec"));
         cliOptions.add(new CliOption(POD_AUTHORS, "Authors used for Podspec"));
@@ -278,6 +284,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             setUnwrapRequired(convertPropertyToBooleanAndWriteBack(UNWRAP_REQUIRED));
         }
         additionalProperties.put(UNWRAP_REQUIRED, unwrapRequired);
+
+        if (additionalProperties.containsKey(USE_CLASSES)) {
+            setUseClasses(convertPropertyToBooleanAndWriteBack(USE_CLASSES));
+        }
+        additionalProperties.put(USE_CLASSES, useClasses);
 
         // Setup objcCompatible option, which adds additional properties
         // and methods for Objective-C compatibility
@@ -604,6 +615,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     public void setUnwrapRequired(boolean unwrapRequired) {
         this.unwrapRequired = unwrapRequired;
+    }
+
+    public void setUseClasses(boolean useClasses) {
+        this.useClasses = useClasses;
     }
 
     public void setObjcCompatible(boolean objcCompatible) {
