@@ -69,6 +69,7 @@ public class DefaultCodegen {
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
+    protected Map<String, String> typeNameMapping = new HashMap<String, String>();
     protected Map<String, String> instantiationTypes = new HashMap<String, String>();
     protected Set<String> reservedWords = new HashSet<String>();
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
@@ -425,6 +426,10 @@ public class DefaultCodegen {
 
     public Map<String, String> typeMapping() {
         return typeMapping;
+    }
+
+    public Map<String, String> typeNameMapping() {
+        return typeNameMapping;
     }
 
     public Map<String, String> instantiationTypes() {

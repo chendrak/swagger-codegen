@@ -103,6 +103,14 @@ public class Generate implements Runnable {
     private List<String> typeMappings = new ArrayList<>();
 
     @Option(
+            name = {"--type-name-mappings"},
+            title = "Map type names",
+            description = "specifies mappings between a type in the swagger spec file and what is to be generated "
+                    + "in the format of swaggerType=generatedType,swaggerType=generatedType. For example: longNameInSpec=newType,serverType=clientType"
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> typeNameMappings = new ArrayList<>();
+
+    @Option(
             name = {"--additional-properties"},
             title = "additional properties",
             description = "sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value."
@@ -277,6 +285,7 @@ public class Generate implements Runnable {
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
+        applyTypeNameMappingsKvpList(typeNameMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);

@@ -321,6 +321,16 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toModelName(String name) {
+        // We need to check if import-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        if (typeNameMapping.containsKey(name)) {
+            return typeNameMapping.get(name);
+        }
+
         name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         if (!StringUtils.isEmpty(modelNameSuffix)) { // set model suffix

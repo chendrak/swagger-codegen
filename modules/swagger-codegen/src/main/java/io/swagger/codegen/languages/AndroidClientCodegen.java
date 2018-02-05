@@ -230,6 +230,16 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
+        // We need to check if import-mapping has a different model for this class, so we use it
+        // instead of the auto-generated one.
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+
+        if (typeNameMapping.containsKey(name)) {
+            return typeNameMapping.get(name);
+        }
+
         // add prefix, suffix if needed
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;

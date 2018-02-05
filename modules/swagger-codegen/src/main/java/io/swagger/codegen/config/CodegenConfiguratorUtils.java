@@ -70,10 +70,23 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyTypeNameMappingsKvpList(List<String> typeNameMappings, CodegenConfigurator configurator) {
+        for(String propString : typeNameMappings) {
+            applyTypeNameMappingsKvp(propString, configurator);
+        }
+    }
+
     public static void applyTypeMappingsKvp(String typeMappings, CodegenConfigurator configurator) {
         final Map<String, String> map = createMapFromKeyValuePairs(typeMappings);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addTypeMapping(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public static void applyTypeNameMappingsKvp(String typeMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(typeMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addTypeNameMapping(entry.getKey(), entry.getValue());
         }
     }
 

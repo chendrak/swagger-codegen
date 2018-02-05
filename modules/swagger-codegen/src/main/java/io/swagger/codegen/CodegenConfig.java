@@ -101,6 +101,8 @@ public interface CodegenConfig {
 
     Map<String, String> typeMapping();
 
+    Map<String, String> typeNameMapping();
+
     Map<String, String> instantiationTypes();
 
     Map<String, String> importMapping();

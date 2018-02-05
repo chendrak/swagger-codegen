@@ -64,6 +64,7 @@ public class CodegenConfigurator implements Serializable {
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
     private Map<String, String>  reservedWordMappings = new HashMap<String, String>();
+    private Map<String, String> typeNameMappings = new HashMap<String, String>();
 
     private String gitUserId="GIT_USER_ID";
     private String gitRepoId="GIT_REPO_ID";
@@ -269,6 +270,15 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+    public CodegenConfigurator addTypeNameMapping(String key, String value) {
+        this.typeNameMappings.put(key, value);
+        return this;
+    }
+
+    public Map<String, String> getTypeNameMappings() {
+        return typeNameMappings;
+    }
+
     public Map<String, Object> getAdditionalProperties() {
         return additionalProperties;
     }
@@ -397,6 +407,7 @@ public class CodegenConfigurator implements Serializable {
 
         config.instantiationTypes().putAll(instantiationTypes);
         config.typeMapping().putAll(typeMappings);
+        config.typeNameMapping().putAll(typeNameMappings);
         config.importMapping().putAll(importMappings);
         config.languageSpecificPrimitives().addAll(languageSpecificPrimitives);
         config.reservedWordsMappings().putAll(reservedWordMappings);
