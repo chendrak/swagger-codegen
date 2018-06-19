@@ -446,8 +446,24 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             return importMapping.get(name);
         }
 
+        boolean hasTypeNameMapping = false;
+
         if (typeNameMapping.containsKey(name)) {
-            return typeNameMapping.get(name);
+            name = typeNameMapping.get(name);
+            hasTypeNameMapping = true;
+        }
+
+        // add prefix, suffix if needed
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            name = modelNamePrefix + "_" + name;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            name = name + "_" + modelNameSuffix;
+        }
+
+        if (hasTypeNameMapping) {
+            return name;
         }
 
         // FIXME parameter should not be assigned. Also declare it as "final"

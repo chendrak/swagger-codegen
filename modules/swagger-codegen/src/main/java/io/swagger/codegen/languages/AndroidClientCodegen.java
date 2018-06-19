@@ -243,8 +243,11 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
+        boolean hasTypeNameMapping = false;
+
         if (typeNameMapping.containsKey(name)) {
-            return typeNameMapping.get(name);
+            name = typeNameMapping.get(name);
+            hasTypeNameMapping = true;
         }
 
         // add prefix, suffix if needed
@@ -255,6 +258,12 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
         if (!StringUtils.isEmpty(modelNameSuffix)) {
             name = name + "_" + modelNameSuffix;
         }
+
+        if (hasTypeNameMapping) {
+            return name;
+        }
+
+        LOGGER.info("modelName: " + name);
 
         // camelize the model name
         // phone_number => PhoneNumber
